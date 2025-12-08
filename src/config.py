@@ -6,7 +6,7 @@
 
 import yaml  # type: ignore[import-untyped]
 
-from notifier.notifier_interface import Notifier
+from logger.logger_interface import Logger
 from typing import Optional
 
 
@@ -93,7 +93,7 @@ class Config:
             return
 
         # Notify the user about the problem
-        Notifier.notify(
+        Logger.notify(
             msg="No config provided! Using default and creating config file..."
         )
 
@@ -102,3 +102,36 @@ class Config:
 
         # Write config file
         self.__save_config()
+
+    def __getitem__(self, key: str) -> str:
+        """Get the value for the specified configuration.
+
+        Args:
+            key (str): The key of configuration name.
+
+        Returns:
+            str: The Value of the configuration.
+        """
+        # Check if key exists
+        if key not in self.__data:
+            Logger.exception(msg=f"Key '{key}' does not exist in the config!")
+
+        return self.__data[key]
+
+    def __setitem__(self, key: str, value: str) -> None:
+        """Set the value for the specified configuration.
+
+        Args:
+            key (str): The configuration name.
+            value (str): The value of the configuration.
+        """
+        # Check if key is allowed
+        if key not in self.__required_config_keys:
+            Logger.exception(
+                msg=f"Invalid key '{key}'! Only the following are allowed: {self.__required_config_keys}"
+            )
+
+        self.__data[key] = value
+
+
+config: Config = Config()

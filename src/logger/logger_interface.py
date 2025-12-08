@@ -4,7 +4,7 @@
 # ============================== #
 
 
-class Notifier:
+class Logger:
     @staticmethod
     def exception(msg: str):
         raise Exception(msg)
@@ -12,3 +12,7 @@ class Notifier:
     @staticmethod
     def notify(msg: str):
         print(msg)
+
+    @staticmethod
+    def log(parent: str, msg: str):
+        print(f"{parent} | {msg}")
