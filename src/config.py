@@ -6,7 +6,10 @@
 
 import yaml  # type: ignore[import-untyped]
 
-from logger.logger_interface import Logger
+from notification_handlers.notification_handlers_interface import (
+    raise_exception,
+    notify,
+)
 from typing import Optional
 
 
@@ -93,9 +96,7 @@ class Config:
             return
 
         # Notify the user about the problem
-        Logger.notify(
-            msg="No config provided! Using default and creating config file..."
-        )
+        notify(msg="No config provided! Using default and creating config file...")
 
         # Set config to default config
         self.__data = self.__default_config
@@ -114,7 +115,7 @@ class Config:
         """
         # Check if key exists
         if key not in self.__data:
-            Logger.exception(msg=f"Key '{key}' does not exist in the config!")
+            raise_exception(msg=f"Key '{key}' does not exist in the config!")
 
         return self.__data[key]
 
@@ -127,7 +128,7 @@ class Config:
         """
         # Check if key is allowed
         if key not in self.__required_config_keys:
-            Logger.exception(
+            raise_exception(
                 msg=f"Invalid key '{key}'! Only the following are allowed: {self.__required_config_keys}"
             )
 
