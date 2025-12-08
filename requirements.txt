@@ -1,2 +1,13 @@
-faster-whisper==1.2.1
-sounddevice==0.5.3
+# faster-whisper==1.2.1
+# sounddevice==0.5.3
+openai-whisper
+torch
+pyaudio
+keyboard
+pyperclip
+numpy
+torch
+torchvision
+torchaudio
+scipy
+pyautogui
