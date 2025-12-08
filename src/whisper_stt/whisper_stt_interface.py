@@ -12,10 +12,13 @@ import torch
 
 from logger.logger_interface import Logger
 from config import config
+from typing import Any
 
 
 class WhisperTranscriber:
-    def __init__(self) -> None:
+    def __init__(self, audio_device_index: int) -> None:
+        self.__audio_device_index: int = audio_device_index
+
         # Select device where whisper should run
         self.__device = "cuda" if torch.cuda.is_available() else "cpu"
         Logger.log(
@@ -34,5 +37,10 @@ class WhisperTranscriber:
         # Recording variables
         self.__is_recording: bool = False
         self.__audio_data: list[bytes] = []
+
+        # Select audio device
+        self.__audio_device_info: dict[str, Any] = sd.query_devices(  # pyright: ignore[reportUnknownMemberType]
+            device=self.__audio_device_index
+        )
 
     def transcribe(self) -> None: ...
