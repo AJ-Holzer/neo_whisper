@@ -4,8 +4,8 @@
 # ============================== #
 
 
-import whisper  # pyright: ignore[reportMissingTypeStubs]
-import sounddevice as sd  # pyright: ignore[reportMissingTypeStubs]
+import whisper  # type: ignore[import-untyped]
+import sounddevice as sd  # type: ignore[import-untyped]
 import numpy as np
 import torch
 
@@ -50,13 +50,15 @@ class WhisperTranscriber:
         # Create audio stream
         self.__stream: Optional[sd.InputStream] = None
 
-    def __audio_callback(self, indata: np.ndarray, frames: int, time, status) -> None:
+    def __audio_callback(
+        self, indata: np.ndarray, frames: int, time: float, status: sd.CallbackFlags
+    ) -> None:
         if status:
             log(parent=self.__class__.__name__, msg=f"Audio status: {status}")
         if self.__is_recording:
             self.__audio_data.append(indata.copy())
 
-    def __start_recording(self) -> None:
+    def start_recording(self) -> None:
         """Start recording."""
         # Skip if already recording
         if self.__is_recording:
@@ -70,8 +72,8 @@ class WhisperTranscriber:
 
         try:
             self.__stream = sd.InputStream(
-                samplerate=config["sample_rate"],
-                channels=config["channels"],
+                samplerate=int(config["sample_rate"]),
+                channels=int(config["channels"]),
                 callback=self.__audio_callback,
                 device=self.__audio_device_id,
                 dtype="float32",
@@ -81,7 +83,7 @@ class WhisperTranscriber:
             log(parent=self.__class__.__name__, msg=f"Exception has occurred: {e}")
             self.__is_recording = False
 
-    def __stop_recording(self) -> Optional[str]:
+    def stop_recording(self) -> Optional[str]:
         """Stop recording."""
         # Skip if not recording
         if not self.__is_recording:

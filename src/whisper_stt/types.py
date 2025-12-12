@@ -4,9 +4,9 @@
 # ============================== #
 
 
-from enum import Enum, auto
+from enum import StrEnum
 
 
-class ModelDevice(Enum):
-    CUDA = auto()
-    CPU = auto()
+class ModelDevice(StrEnum):
+    CUDA = "cuda"
+    CPU = "cpu"

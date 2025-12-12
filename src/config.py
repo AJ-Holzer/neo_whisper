@@ -5,12 +5,13 @@
 
 
 import yaml  # type: ignore[import-untyped]
+import os
 
 from notification_handlers.notification_handlers_interface import (
     raise_exception,
     notify,
 )
-from typing import Optional
+from typing import Optional, cast
 
 
 CONFIG_FILE_PATH: str = "config.yml"
@@ -18,7 +19,7 @@ DEFAULT_CONFIG: dict[str, str] = {
     "hotkey": "f9",
     "model_size": "large",
     "sample_rate": "16000",
-    "channels": "",
+    "channels": "1",
     "language": "en",
 }
 REQUIRED_CONFIG_KEYS: list[str] = [
@@ -53,7 +54,7 @@ class Config:
 
         self.__load_config_file()
 
-    def __config_valid(self, config_data: dict[str, str]) -> bool:
+    def __config_valid(self, config_data: Optional[dict[str, str]]) -> bool:
         """Checks if the config data is valid.
 
         Args:
@@ -62,14 +63,20 @@ class Config:
         Returns:
             bool: Whether the config is valid or not.
         """
-        return config_data.keys() == self.__required_config_keys
+        return (
+            config_data is not None
+            and config_data.keys() == self.__required_config_keys
+        )
 
-    def __get_config(self) -> dict[str, str]:
+    def __get_config(self) -> Optional[dict[str, str]]:
         """Reads the data of the config file.
 
         Returns:
             dict[str, str]: The data of the config file.
         """
+        if not os.path.exists(self.__config_file_path):
+            return None
+
         with open(file=self.__config_file_path, mode="r", encoding="UTF-8") as f:
             return yaml.safe_load(stream=f)
 
@@ -88,11 +95,11 @@ class Config:
         If there is no config provided, the default config will be used and saved to the config file.
         """
         # Load config data
-        config: dict[str, str] = self.__get_config()
+        config: Optional[dict[str, str]] = self.__get_config()
 
         # Use config file if provided
         if self.__config_valid(config_data=config):
-            self.__data = config
+            self.__data = cast(dict[str, str], config)
             return
 
         # Notify the user about the problem
