@@ -10,13 +10,13 @@ NeoWhisper is a speech-to-text tool that is inspired by the [SuperWhisper](https
 > [!note]
 > This project uses Python `3.14`.
 
-### Ubuntu Installation
+### Ubuntu/Debian
 
 ```shell
 sudo apt install python3.14 python3.14-dev
 ```
 
-## Dependencies installation
+## Dependencies Installation
 
 ### Ubuntu/Debian
 
