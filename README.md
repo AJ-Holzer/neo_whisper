@@ -29,4 +29,23 @@ sudo apt-get install python3.14-dev -y
 
 # Install additional dependencies
 sudo apt-get install portaudio19-dev
+
+# For NVIDIA GPU support
+sudo apt install -y nvidia-cuda-toolkit
+```
+
+## Python-venv Installation & Setup
+
+```shell
+# Create python venv
+python3.14 -m .venv
+
+# Activate venv
+source .venv/bin/activate
+```
+
+## Python Library Installation
+
+```shell
+pip3.14 install -r requirements.txt
 ```
