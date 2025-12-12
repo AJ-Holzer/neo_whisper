@@ -7,7 +7,7 @@ NeoWhisper is a speech-to-text tool that is inspired by the [SuperWhisper](https
 
 ## Python Installation
 
-> [!important] Version
+> [!note] Version
 > This project uses Python `3.14`.
 
 ### Ubuntu Installation
