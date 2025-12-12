@@ -16,36 +16,32 @@ NeoWhisper is a speech-to-text tool that is inspired by the [SuperWhisper](https
 sudo apt install python3.14 python3.14-venv
 ```
 
-## Dependencies Installation
+## Dependencies & Requirements Installation
 
 ### Ubuntu/Debian
 
 ```shell
-# Update repositories
+# System Update
 sudo apt update
 
-# Install python headers
-sudo apt-get install python3.14-dev -y
+# Install Python and Development Tools
+sudo apt install -y \
+    python3.14-dev \
+    build-essential \
+    portaudio19-dev
 
-# Install additional dependencies
-sudo apt-get install portaudio19-dev
-
-# For NVIDIA GPU support
+# Optional: NVIDIA GPU Support
 sudo apt install -y nvidia-cuda-toolkit
-```
 
-## Python-venv Installation & Setup
+# Create Virtual Environment
+python3.14 -m venv .venv
 
-```shell
-# Create python venv
-python3.14 -m .venv
-
-# Activate venv
+# Activate Virtual Environment
 source .venv/bin/activate
-```
 
-## Python Library Installation
+# Upgrade pip
+pip install --upgrade pip
 
-```shell
-pip3.14 install -r requirements.txt
+# Install Python Libraries
+pip install -r requirements.txt
 ```
